@@ -1,4 +1,4 @@
-import { Feedback } from './FeedbackOne/FeedbackOne';
+import { Feedback } from './Feedback/Feedback';
 
 export const App = () => {
   return (
