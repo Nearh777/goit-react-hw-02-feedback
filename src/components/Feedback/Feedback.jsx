@@ -31,16 +31,11 @@ export class Feedback extends React.Component {
       bad: prevState.bad + 1,
     }));
   };
-  countTotalFeedback = () => Object.values(this.state).reduce((acc, val) => acc + val, 0);
-    
-  countPositiveFeedbackPercentage = () => Math.fround((this.state.good / this.countTotalFeedback()) * 100);
 
-  // countTotalFeedback = () => {
-  //   this.setState(() => ({
-  //     total: Object.values(this.state).reduce((acc, val) => acc + val, 0),
-  //   }));
-  // };
+  countTotalFeedback = () => Object.values(this.state).reduce((acc, val) => acc + val, 0);    
+  countPositiveFeedbackPercentage = () => Math.floor((this.state.good / this.countTotalFeedback()) * 100);
 
+ 
   render() {
     return (
       <Container>
@@ -55,7 +50,7 @@ export class Feedback extends React.Component {
         <p>Нейтрально: {this.state.neutral}</p>
         <p>Погано: {this.state.bad}</p>
         <p>Всього: {this.countTotalFeedback(this.props)}</p>
-        <p>Позитивних відгуків: {this.countPositiveFeedbackPercentage(this.props).toFixed(2)} %</p>
+        <p>Позитивних відгуків: {this.countPositiveFeedbackPercentage(this.props)} %</p>
       </Container>
     );
   }
