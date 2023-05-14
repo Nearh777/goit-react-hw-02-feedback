@@ -37,8 +37,7 @@ export class Feedback extends React.Component {
   
 
   render() {
-    return (
-      
+    return (      
       <Container>
         <h2>Будь ласка, залиште відгук</h2>
         <Controls
@@ -50,7 +49,7 @@ export class Feedback extends React.Component {
         <p>Добре: {this.state.good}</p>
         <p>Нейтрально: {this.state.neutral}</p>
         <p>Погано: {this.state.bad}</p>
-        <p>Всього: {this.countTotalFeedback }</p>
+        <p>Всього: {this.countTotalFeedback}</p>
         <p>Позитивних відгуків: %</p>
       </Container>
     );
