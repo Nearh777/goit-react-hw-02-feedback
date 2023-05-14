@@ -11,10 +11,13 @@ export class Feedback extends React.Component {
     bad: PropTypes.number,
   };
 
+
   state = {
     good: 0,
     neutral: 0,
     bad: 0,
+    total: 0,
+    
   };
 
   handleGood = () => {
@@ -33,7 +36,14 @@ export class Feedback extends React.Component {
     }));
   };
 
+  // total = this.good + this.neutral + this.bad;
 
+  countTotalFeedback = () => {
+    this.setState(total => ({
+      total: total.good + total.neutral + total.bad,
+  }));
+
+ 
   render() {
     return (
       <Container>
@@ -47,6 +57,8 @@ export class Feedback extends React.Component {
         <p>Добре: {this.state.good}</p>
         <p>Нейтрально: {this.state.neutral}</p>
         <p>Погано: {this.state.bad}</p>
+        <p>Всього: {this.state.total}</p>
+        <p>Позитивних відгуків: %</p>
       </Container>
     );
   }
