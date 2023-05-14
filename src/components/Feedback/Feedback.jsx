@@ -1,7 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Controls } from './Controls';
-
 import { Container } from './Feedback.styled';
 
 export class Feedback extends React.Component {
@@ -15,7 +14,6 @@ export class Feedback extends React.Component {
     good: 0,
     neutral: 0,
     bad: 0,
-    
   };
 
   handleGood = () => {
@@ -34,10 +32,17 @@ export class Feedback extends React.Component {
     }));
   };
   countTotalFeedback = () => Object.values(this.state).reduce((acc, val) => acc + val, 0);
-  
+    
+  countPositiveFeedbackPercentage = () => Math.fround((this.state.good / this.countTotalFeedback()) * 100);
+
+  // countTotalFeedback = () => {
+  //   this.setState(() => ({
+  //     total: Object.values(this.state).reduce((acc, val) => acc + val, 0),
+  //   }));
+  // };
 
   render() {
-    return (      
+    return (
       <Container>
         <h2>Будь ласка, залиште відгук</h2>
         <Controls
@@ -49,8 +54,8 @@ export class Feedback extends React.Component {
         <p>Добре: {this.state.good}</p>
         <p>Нейтрально: {this.state.neutral}</p>
         <p>Погано: {this.state.bad}</p>
-        <p>Всього: {this.countTotalFeedback}</p>
-        <p>Позитивних відгуків: %</p>
+        <p>Всього: {this.countTotalFeedback(this.props)}</p>
+        <p>Позитивних відгуків: {this.countPositiveFeedbackPercentage(this.props).toFixed(2)} %</p>
       </Container>
     );
   }
