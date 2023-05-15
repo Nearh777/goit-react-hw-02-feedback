@@ -1,9 +1,12 @@
-import React from 'react';
+import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { Controls } from './Controls';
+import { FeedbackOptions } from '../FeedbackOptions/FeedbackOptions';
+import { Statistics } from 'components/Statistics/Statistics';
+import { Section } from 'components/Section/Section';
+import { Notification } from 'components/Notification/Notification';
 import { Container } from './Feedback.styled';
 
-export class Feedback extends React.Component {
+export class Feedback extends Component {
   static propTypes = {
     good: PropTypes.number,
     neutral: PropTypes.number,
@@ -16,41 +19,61 @@ export class Feedback extends React.Component {
     bad: 0,
   };
 
-  handleGood = () => {
-    this.setState(prevState => ({
-      good: prevState.good + 1,
-    }));
-  };
-  handleNeutral = () => {
-    this.setState(prevState => ({
-      neutral: prevState.neutral + 1,
-    }));
-  };
-  handleBad = () => {
-    this.setState(prevState => ({
-      bad: prevState.bad + 1,
-    }));
+  hendleStat = ({ currentTarget: { name } }) => {
+    this.setState(prevState => {
+      return { [name]: prevState[name] + 1 };
+    });
   };
 
-  countTotalFeedback = () => Object.values(this.state).reduce((acc, val) => acc + val, 0);    
-  countPositiveFeedbackPercentage = () => Math.floor((this.state.good / this.countTotalFeedback()) * 100);
+  // handleGood = () => {
+  //   this.setState(prevState => ({
+  //     good: prevState.good + 1,
+  //   }));
+  // };
+  // handleNeutral = () => {
+  //   this.setState(prevState => ({
+  //     neutral: prevState.neutral + 1,
+  //   }));
+  // };
+  // handleBad = () => {
+  //   this.setState(prevState => ({
+  //     bad: prevState.bad + 1,
+  //   }));
+  // };
 
- 
+  countTotalFeedback = () =>
+    Object.values(this.state).reduce((acc, val) => acc + val, 0);
+  countPositiveFeedbackPercentage = () =>
+    Math.floor((this.state.good / this.countTotalFeedback()) * 100);
+
   render() {
+    const { good, neutral, bad } = this.state;
+    const countTotal = this.countTotalFeedback(this.props);
+    const positiveFeedback = this.countPositiveFeedbackPercentage(this.props);
+    const onLeaveFeedback = this.hendleStat;
+
     return (
       <Container>
-        <h2>Будь ласка, залиште відгук</h2>
-        <Controls
-          onGood={this.handleGood}
-          onNeutral={this.handleNeutral}
-          onBad={this.handleBad}
+        <Section title="Будь ласка, залиште відгук" />
+        <FeedbackOptions
+          options={this.state}
+          onLeaveFeedback={onLeaveFeedback}
         />
-        <h3>Статистика</h3>
-        <p>Добре: {this.state.good}</p>
-        <p>Нейтрально: {this.state.neutral}</p>
-        <p>Погано: {this.state.bad}</p>
-        <p>Всього: {this.countTotalFeedback(this.props)}</p>
-        <p>Позитивних відгуків: {this.countPositiveFeedbackPercentage(this.props)} %</p>
+        <Section />
+        <Section title="Статистика" />
+        {countTotal ? (
+          <>
+            <Statistics
+              good={good}
+              neutral={neutral}
+              bad={bad}
+              total={countTotal}
+              positivePercentage={positiveFeedback}
+            />
+          </>
+        ) : (
+          <Notification message="Зворотного зв'язку немає" />
+        )}
       </Container>
     );
   }
